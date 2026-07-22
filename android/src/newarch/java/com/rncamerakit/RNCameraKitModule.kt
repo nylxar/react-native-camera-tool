@@ -110,7 +110,7 @@ class RNCameraKitModule(private val reactContext: ReactApplicationContext) : Nat
         activity.startActivityForResult(intent, PICK_IMAGE_REQUEST)
     }
 
-    override fun onActivityResult(activity: Activity?, requestCode: Int, resultCode: Int, data: Intent?) {
+    override fun onActivityResult(activity: Activity, requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode != PICK_IMAGE_REQUEST) return
 
         val promise = pickAndScanPromise
@@ -135,7 +135,7 @@ class RNCameraKitModule(private val reactContext: ReactApplicationContext) : Nat
         }
     }
 
-    override fun onNewIntent(intent: Intent?) {}
+    override fun onNewIntent(intent: Intent) {}
 
     private fun resultsToWritableArray(results: List<Map<String, Any>>): WritableArray {
         val writableArray = Arguments.createArray()
