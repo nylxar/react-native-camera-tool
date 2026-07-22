@@ -1,29 +1,27 @@
 {
-  "name": "react-native-camera-kit",
+  "name": "react-native-camera-tool",
+  "type": "module",
   "repository": {
     "type": "git",
-    "url": "https://github.com/teslamotors/react-native-camera-kit.git"
+    "url": "https://github.com/nylxar/react-native-camera-tool.git"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },
-  "version": "18.0.0",
-  "description": "A high performance, fully featured, rock solid camera library for React Native applications",
+  "version": "1.0.2",
+  "description": "Camera library for React Native with barcode scanning and gallery image scanning",
   "nativePackage": true,
   "scripts": {
     "build": "tsc --project tsconfig.json",
     "clean": "rm -rf dist/",
     "test": "jest",
-    "lint": "yarn eslint -c .eslintrc.js",
+    "lint": "eslint -c .eslintrc.js",
     "check-ios": "scripts/check-ios.sh",
-    "release": "yarn clean && yarn build && yarn publish --verbose",
-    "release:beta": "yarn clean && yarn build && yarn publish --tag beta --verbose",
-    "release:local": "yarn clean && yarn build && tmp=$(mktemp) && yarn pack --filename $tmp.tar.gz && open -R $tmp.tar.gz",
-    "prepack": "rm -rf android/build build",
-    "start": "watchman watch-del-all && node node_modules/react-native/local-cli/cli.js start",
+    "release": "pnpm run clean && pnpm run build && pnpm publish --verbose",
+    "release:beta": "pnpm run clean && pnpm run build && pnpm publish --tag beta --verbose",
     "codegen": "react-native codegen --verbose --path . --platform ios --source library && react-native codegen --verbose --path . --platform android --source library",
-    "bootstrap": "cd example/ && bundle install && yarn && cd ios/ && bundle exec pod install",
-    "bootstrap-linux": "cd example/ && yarn"
+    "bootstrap": "cd example/ && pnpm install && cd ios/ && pod install",
+    "bootstrap-linux": "cd example/ && pnpm install"
   },
   "main": "dist/index.js",
   "module": "dist/index.js",
@@ -80,5 +78,5 @@
       }
     }
   },
-  "packageManager": "yarn@1.22.22"
+  "packageManager": "pnpm@11.11.0"
 }
