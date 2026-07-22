@@ -66,8 +66,30 @@ export type CaptureData = {
   size?: number;
 };
 
+export type ScannedBarcode = {
+  codeStringValue: string;
+  codeFormat: CodeFormat;
+  displayValue: string;
+  boundingBox: {
+    x: number;
+    y: number;
+    width: number;
+    height: number;
+  };
+};
+
+export type ScanFromUriOptions = {
+  allowedBarcodeTypes?: CodeFormat[];
+};
+
+export type PickAndScanOptions = {
+  allowedBarcodeTypes?: CodeFormat[];
+};
+
 export type CameraApi = {
   capture: () => Promise<CaptureData>;
   requestDeviceCameraAuthorization: () => Promise<boolean>;
   checkDeviceCameraAuthorizationStatus: () => Promise<boolean>;
+  scanFromUri: (uri: string, options?: ScanFromUriOptions) => Promise<ScannedBarcode[]>;
+  pickAndScan: (options?: PickAndScanOptions) => Promise<ScannedBarcode[]>;
 };
