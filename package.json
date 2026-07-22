@@ -1,6 +1,6 @@
 {
   "name": "react-native-camera-tool",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Camera library for React Native with barcode scanning and gallery image scanning",
   "keywords": [
     "react-native",
