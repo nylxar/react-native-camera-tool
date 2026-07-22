@@ -1,6 +1,6 @@
 import React from 'react';
 import { findNodeHandle } from 'react-native';
-import { supportedCodeFormats, type CameraApi } from './types';
+import { supportedCodeFormats, type CameraApi, type ScanFromUriOptions, type PickAndScanOptions } from './types';
 import type { CameraProps } from './CameraProps';
 import NativeCamera from './specs/CameraNativeComponent';
 import NativeCameraKitModule from './specs/NativeCameraKitModule';
@@ -31,6 +31,12 @@ const Camera = React.forwardRef<CameraApi, CameraProps>((props, ref) => {
     },
     checkDeviceCameraAuthorizationStatus: async () => {
       return await NativeCameraKitModule.checkDeviceCameraAuthorizationStatus();
+    },
+    scanFromUri: async (uri: string, options?: ScanFromUriOptions) => {
+      return await NativeCameraKitModule.scanFromUri(uri, options ?? {});
+    },
+    pickAndScan: async (options?: PickAndScanOptions) => {
+      return await NativeCameraKitModule.pickAndScan(options ?? {});
     },
   }));
 
