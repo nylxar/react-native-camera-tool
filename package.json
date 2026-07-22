@@ -1,16 +1,39 @@
 {
   "name": "react-native-camera-tool",
-  "type": "module",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/nylxar/react-native-camera-tool.git"
-  },
-  "publishConfig": {
-    "registry": "https://registry.npmjs.org/"
-  },
   "version": "1.0.2",
   "description": "Camera library for React Native with barcode scanning and gallery image scanning",
-  "nativePackage": true,
+  "keywords": [
+    "react-native",
+    "camera",
+    "barcode",
+    "gallery",
+    "scanning"
+  ],
+  "homepage": "https://github.com/nylxar/react-native-camera-tool#readme",
+  "bugs": {
+    "url": "https://github.com/nylxar/react-native-camera-tool/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nylxar/react-native-camera-tool.git"
+  },
+  "license": "MIT",
+  "author": "nylxar",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "directories": {
+    "doc": "docs",
+    "example": "example"
+  },
+  "files": [
+    "android",
+    "!android/build",
+    "dist",
+    "ios",
+    "src",
+    "ReactNativeCameraKit.podspec"
+  ],
   "scripts": {
     "build": "tsc --project tsconfig.json",
     "clean": "rm -rf dist/",
@@ -23,21 +46,6 @@
     "bootstrap": "cd example/ && pnpm install && cd ios/ && pod install",
     "bootstrap-linux": "cd example/ && pnpm install"
   },
-  "main": "dist/index.js",
-  "module": "dist/index.js",
-  "source": "./src/",
-  "types": "dist/index.d.ts",
-  "react-native": "src/index",
-  "files": [
-    "android",
-    "!android/build",
-    "dist",
-    "ios",
-    "src",
-    "ReactNativeCameraKit.podspec"
-  ],
-  "license": "MIT",
-  "dependencies": {},
   "devDependencies": {
     "@babel/core": "^7.25.2",
     "@babel/preset-env": "^7.25.3",
@@ -65,6 +73,13 @@
   "engines": {
     "node": ">=18"
   },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
+  "nativePackage": true,
+  "module": "dist/index.js",
+  "source": "./src/",
+  "react-native": "src/index",
   "codegenConfig": {
     "name": "NativeCameraKitSpec",
     "type": "all",
