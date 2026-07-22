@@ -1,6 +1,6 @@
 import React from 'react';
 import { findNodeHandle, processColor } from 'react-native';
-import { supportedCodeFormats, type CameraApi, type ScanFromUriOptions, type PickAndScanOptions } from './types';
+import { supportedCodeFormats, type CameraApi, type ScanFromUriOptions, type PickAndScanOptions, type ScannedBarcode } from './types';
 import type { CameraProps } from './CameraProps';
 import NativeCamera from './specs/CameraNativeComponent';
 import NativeCameraKitModule from './specs/NativeCameraKitModule';
@@ -28,11 +28,11 @@ const Camera = React.forwardRef<CameraApi, CameraProps>((props, ref) => {
     checkDeviceCameraAuthorizationStatus: () => {
       throw new Error('Not implemented');
     },
-    scanFromUri: async (uri: string, options?: ScanFromUriOptions) => {
-      return await NativeCameraKitModule.scanFromUri(uri, options ?? {});
+    scanFromUri: async (uri: string, options?: ScanFromUriOptions): Promise<ScannedBarcode[]> => {
+      return (await NativeCameraKitModule.scanFromUri(uri, options ?? {})) as ScannedBarcode[];
     },
-    pickAndScan: async (options?: PickAndScanOptions) => {
-      return await NativeCameraKitModule.pickAndScan(options ?? {});
+    pickAndScan: async (options?: PickAndScanOptions): Promise<ScannedBarcode[]> => {
+      return (await NativeCameraKitModule.pickAndScan(options ?? {})) as ScannedBarcode[];
     },
   }));
 
