@@ -1,5 +1,5 @@
 <h1 align="center">
-    🎈 React Native Camera Kit
+    🎈 React Native Camera Tool
 </h1>
 
 <p align="center">
@@ -8,11 +8,11 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/teslamotors/react-native-camera-kit/blob/master/LICENSE">
-    <img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="React Native Camera Kit is released under the MIT license." />
+  <a href="https://github.com/nylxar/react-native-camera-tool/blob/master/LICENSE">
+    <img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="React Native Camera Tool is released under the MIT license." />
   </a>
-  <a href="https://www.npmjs.org/package/react-native-camera-kit">
-    <img src="https://badge.fury.io/js/react-native-camera-kit.svg" alt="Current npm package version." />
+  <a href="https://www.npmjs.org/package/react-native-camera-tool">
+    <img src="https://badge.fury.io/js/react-native-camera-tool.svg" alt="Current npm package version." />
   </a>
 </p>
 <table>
@@ -25,6 +25,7 @@
         <li><h3>Cross Platform (iOS and Android)</h3></li>
         <li><h3>Optimized for performance and high photo capture rate</h3></li>
         <li><h3>QR / Barcode scanning support</h3></li>
+        <li><h3>Scan barcodes from gallery images</h3></li>
         <li><h3>Face detection support</h3></li>
         <li><h3>Camera preview support in iOS simulator</h3></li>
       </ul>
@@ -32,10 +33,10 @@
   </tr>
 </table>
 
-## Installation (RN > 0.60)
+## Installation
 
 ```bash
-yarn add react-native-camera-kit
+pnpm add react-native-camera-tool
 ```
 
 ```bash
@@ -109,7 +110,7 @@ However, in reality it's not that simple due to privacy enhancements on iOS and 
           └─────────────────┘
 ```
 
-In earlier versions of react-native-camera-kit, permissions were provided with an API, but for the above reasons, these APIs will be removed.
+In earlier versions of react-native-camera-tool, permissions were provided with an API, but for the above reasons, these APIs will be removed.
 
 #### Android
 
@@ -134,8 +135,8 @@ Add the following usage descriptions to your `Info.plist` (usually found at: `io
 
 ## Running the example project
 
-- `yarn bootstrap`
-- `yarn example ios` or `yarn example android`
+- `pnpm bootstrap`
+- `pnpm example ios` or `pnpm example android`
 
 ## Components
 
@@ -144,7 +145,7 @@ Add the following usage descriptions to your `Info.plist` (usually found at: `io
 Barebones camera component if you need advanced/customized interface
 
 ```ts
-import { Camera, CameraType } from 'react-native-camera-kit';
+import { Camera, CameraType } from 'react-native-camera-tool';
 ```
 
 ```tsx
@@ -169,6 +170,48 @@ Additionally, the Camera can be used for barcode scanning
   laserColor='red' // (default red) optional, color of laser in scanner frame
   frameColor='white' // (default white) optional, color of border of scanner frame
 />
+```
+
+#### Scan from Gallery
+
+Scan barcodes from images in the photo library. Two approaches:
+
+**Pick and scan** — opens the system photo picker (Android 13+ uses the modern Photo Picker, no app chooser), then scans the selected image:
+
+```tsx
+const cameraRef = useRef<CameraApi>(null);
+
+const handlePickAndScan = async () => {
+  const results = await cameraRef.current?.pickAndScan({
+    allowedBarcodeTypes: ['qr', 'ean-13', 'code-128'], // optional
+  });
+  console.log(results);
+  // [{ codeStringValue: '...', codeFormat: 'qr', displayValue: '...', boundingBox: { x, y, width, height } }]
+};
+```
+
+**Scan from URI** — scan an image you already have a URI for:
+
+```tsx
+const results = await cameraRef.current?.scanFromUri('file:///path/to/image.jpg', {
+  allowedBarcodeTypes: ['qr'], // optional
+});
+```
+
+Both methods return `ScannedBarcode[]`:
+
+```ts
+type ScannedBarcode = {
+  codeStringValue: string;
+  codeFormat: CodeFormat;
+  displayValue: string;
+  boundingBox: {
+    x: number;      // 0-1 normalized
+    y: number;      // 0-1 normalized
+    width: number;  // 0-1 normalized
+    height: number; // 0-1 normalized
+  };
+};
 ```
 
 #### Face Detection
@@ -224,7 +267,7 @@ To have Play Services [pre-download the model in the background after the app is
 | `onZoom`                        | Function                               | Callback when user makes a pinch gesture, regardless of what the `zoom` prop was set to. Returned event contains `zoom`. Ex: `onZoom={(e) => console.log(e.nativeEvent.zoom)}`.                                                                                                                                                                                                                                                                            |
 | `torchMode`                     | `'on'`/`'off'`                         | Toggle flash light when camera is active. Default: `off`                                                                                                                                                                                                                                                                                                                                                                                                   |
 | `cameraType`                    | CameraType.Back/CameraType.Front       | Choose what camera to use. Default: `CameraType.Back`                                                                                                                                                                                                                                                                                                                                                                                                      |
-| `onOrientationChange`           | Function                               | Callback when physical device orientation changes. Returned event contains `orientation`. Ex: `onOrientationChange={(event) => console.log(event.nativeEvent.orientation)}`. Use `import { Orientation } from 'react-native-camera-kit'; if (event.nativeEvent.orientation === Orientation.PORTRAIT) { ... }` to understand the new value                                                                                                                  |
+| `onOrientationChange`           | Function                               | Callback when physical device orientation changes. Returned event contains `orientation`. Ex: `onOrientationChange={(event) => console.log(event.nativeEvent.orientation)}`. Use `import { Orientation } from 'react-native-camera-tool'; if (event.nativeEvent.orientation === Orientation.PORTRAIT) { ... }` to understand the new value                                                                                                                  |
 | `allowedBarcodeTypes`           | string[]                               | Limits which barcode formats can be detected. Ex: `['code-128', 'code-39', 'code-93', 'codabar', 'ean-13', 'ean-8', 'itf', 'upc-a', 'upc-e', 'pdf-417', 'aztec', 'data-matrix', 'code-128']`. If empty or omitted, all supported formats are scanned.                                                                                                                                                                                                      |
 | **Android only**                |
 | `onError`                       | Function                               | Android only. Callback when camera fails to initialize. Ex: `onError={(e) => console.log(e.nativeEvent.errorMessage)}`.                                                                                                                                                                                                                                                                                                                                    |
@@ -292,11 +335,29 @@ if (uri.startsWith('file://')) {
 }
 ```
 
-## Using with Expo
+#### scanFromUri()
 
-If you are using Expo Managed Workflow, you can use this library with a third-party plugin `expo-react-native-camera-kit`.
+Scan barcodes from an existing image URI. Returns `Promise<ScannedBarcode[]>`.
 
-[See more here](https://github.com/avantstay/expo-react-native-camera-kit)
+```ts
+const results = await this.camera.scanFromUri('file:///path/to/image.jpg');
+const results = await this.camera.scanFromUri('file:///path/to/image.jpg', {
+  allowedBarcodeTypes: ['qr', 'ean-13'],
+});
+```
+
+#### pickAndScan()
+
+Open the system photo picker and scan the selected image. Returns `Promise<ScannedBarcode[]>`.
+
+On Android 13+, this uses the modern system Photo Picker (no app chooser). On older Android and iOS, the platform's default image picker is used.
+
+```ts
+const results = await this.camera.pickAndScan();
+const results = await this.camera.pickAndScan({
+  allowedBarcodeTypes: ['qr'],
+});
+```
 
 ## Contributing
 
