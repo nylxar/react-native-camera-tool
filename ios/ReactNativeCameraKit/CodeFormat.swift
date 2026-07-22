@@ -7,6 +7,7 @@
 
 import Foundation
 import AVFoundation
+import Vision
 
 enum CodeFormat: String, CaseIterable {
     case code128 = "code-128"
@@ -73,6 +74,30 @@ enum CodeFormat: String, CaseIterable {
         case .interleaved2of5: return .interleaved2of5
         case .unknown: fallthrough
         default: return .init(rawValue: "unknown")
+        }
+    }
+
+    // Convert from Vision framework VNBarcodeSymbology to CodeFormat
+    static func fromVNBarcodeSymbology(_ symbology: VNBarcodeSymbology) -> CodeFormat {
+        switch symbology {
+        case .code128: return .code128
+        case .code39: return .code39
+        case .code39Checksum: return .code39
+        case .code39FullASCII: return .code39
+        case .code39FullASCIIChecksum: return .code39
+        case .code93: return .code93
+        case .code93i: return .code93
+        case .codabar: return .codabar
+        case .ean13: return .ean13
+        case .ean8: return .ean8
+        case .interleaved2of5: return .interleaved2of5
+        case .itf14: return .itf14
+        case .upce: return .upce
+        case .qr: return .qr
+        case .pdf417: return .pdf417
+        case .aztec: return .aztec
+        case .dataMatrix: return .dataMatrix
+        default: return .unknown
         }
     }
 }
