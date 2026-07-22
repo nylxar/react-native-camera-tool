@@ -18,6 +18,8 @@ export interface Spec extends TurboModule {
   capture(options?: UnsafeObject, tag?: Double): Promise<CaptureData>;
   requestDeviceCameraAuthorization: () => Promise<boolean>;
   checkDeviceCameraAuthorizationStatus: () => Promise<boolean>;
+  scanFromUri(uri: string, options?: UnsafeObject): Promise<Object[]>;
+  pickAndScan(options?: UnsafeObject): Promise<Object[]>;
 }
 
 export default TurboModuleRegistry.getEnforcing<Spec>('RNCameraKitModule');
