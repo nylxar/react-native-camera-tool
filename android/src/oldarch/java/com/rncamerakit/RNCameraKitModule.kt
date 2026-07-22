@@ -3,6 +3,8 @@ package com.rncamerakit
 import android.app.Activity
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
+import android.provider.MediaStore
 import com.facebook.react.bridge.*
 import com.facebook.react.uimanager.UIManagerHelper
 
@@ -95,8 +97,14 @@ class RNCameraKitModule(private val reactContext: ReactApplicationContext) : Rea
             return
         }
 
-        val intent = Intent(Intent.ACTION_PICK).apply {
-            type = "image/*"
+        val intent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            Intent(MediaStore.ACTION_PICK_IMAGES).apply {
+                type = "image/*"
+            }
+        } else {
+            Intent(Intent.ACTION_PICK).apply {
+                type = "image/*"
+            }
         }
         activity.startActivityForResult(intent, PICK_IMAGE_REQUEST)
     }
